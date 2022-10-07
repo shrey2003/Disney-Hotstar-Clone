@@ -6,8 +6,13 @@ import Home from "./components/Home";
 import DetailPage from "./components/Detail";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+
+
+
 function App() {
+
   return (
+    
     <div className="App">
       <Router>
         <Header />
@@ -15,14 +20,19 @@ function App() {
           <Route exact path="/">
             {<Home />}
           </Route>
-          <Route path="/detail/:id">{<DetailPage />}</Route>
+          <Route exact path="/Detail/:id">
+            
+              {<DetailPage />}
+          </Route>
           <Route exact path="/login">
             {<Login />}
           </Route>
         </Switch>
       </Router>
-    </div>
+      
+         </div>
   );
 }
+
 
 export default App;

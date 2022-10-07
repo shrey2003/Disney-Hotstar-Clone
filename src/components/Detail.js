@@ -1,14 +1,44 @@
-import React from 'react'
+import React,{useState} from 'react'
+import {useEffect} from 'react'
 import styled from 'styled-components'
+import {useParams} from 'react-router-dom'
+import dbConfig from '../features/counter/firebase'
+import Movies from './Movies'
 
-function Detail() {
+const Detail=()=>{
+    
+     const {id}= useParams();
+     const [movie,setMovies] =useState()
+     
+     useEffect(() => {
+       
+        
+        dbConfig.collection("Movies")
+        .doc(id)
+        .get()
+        .then((doc)=>{
+            if(doc.exists){
+                setMovies(doc.data())
+                
+            }
+            else{
+
+            }
+        })
+    },[id])
+
+
   return (
-    <Container>
+    <>
+    {
+        movie && (
+            <>
+               <Container>
         <Background>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/4F39B7E16726ECF419DD7C49E011DD95099AA20A962B0B10AA1881A70661CE45/scale?width=1440&aspectRatio=1.78&format=jpeg" />
+            <img src={movie.BackgroundImg} />
         </Background>
         <ImageTitle>
-            <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/D7AEE1F05D10FC37C873176AAA26F777FC1B71E7A6563F36C6B1B497CAB1CEC2/scale?width=1440&aspectRatio=1.78" />
+            <img src={movie.TitleImg} />
         </ImageTitle>
         <Controls>
             <PlayButton>
@@ -30,13 +60,19 @@ function Detail() {
 
         </Controls>
         <SubTitle>
-        7.5 IMDb 8-min 2018 Family, Fantasy, Kids, Animation
+        {movie.Genres}
         </SubTitle>
         <Description>
-        An ageing Chinese mother, feeling alone when her child moves out, gets a second chance at motherhood when one of her dumplings comes to life.
+        {movie.Description}
         </Description>
          
     </Container>
+            </>
+        )
+    }
+    
+    
+    </>
   )
 }
 
