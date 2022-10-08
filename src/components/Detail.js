@@ -117,6 +117,7 @@ const ImageTitle = styled.div`
 const Controls = styled.div`
 display:flex;
 align-items:center;
+padding-top:8%;
 
 `
 const PlayButton = styled.button`

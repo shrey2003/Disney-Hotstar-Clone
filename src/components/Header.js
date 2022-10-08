@@ -1,11 +1,35 @@
 import React from 'react'
+import { findRenderedComponentWithType } from 'react-dom/test-utils'
+import {auth,provider} from '../features/counter/firebase'
 import styled from 'styled-components'
+import {signInWithPopup} from "firebase/auth";
+import {
+  selectUserName,
+  selectUserPhoto,
+} from '../features/user/userSlice'
+import { useSelector} from 'react-redux'
 
 function Header() {
+   const userName = useSelector(selectUserName);
+   const userPhoto = useSelector(selectUserPhoto);
+     const signIn=()=>{
+        signInWithPopup(auth,provider)
+        .then((result)=>{
+          console.log(result);
+        })
+     }
+
+
   return (
     <Nav>
         <Logo src="/images/logo.svg" />
-        <NavMenu>
+        { !userName ? (
+           <LoginContainer>
+            <Login onClick={signIn}>Login</Login>
+            </LoginContainer>
+           ):
+           <>
+              <NavMenu>
           <a>
              <img src="/images/home-icon.svg" />
              <span>HOME</span>
@@ -35,6 +59,12 @@ function Header() {
         <UserImg src="https://www.hotstar.com/assets/c724e71754181298e3f835e46ade0517.svg">
         
         </UserImg>
+           
+       </>
+           
+           
+           }
+        
 
     </Nav>
   )
@@ -96,6 +126,37 @@ align-items: center;
 const UserImg=styled.img`
 border-radius:50%;
 cursor:pointer;
+
+
+`
+
+const Login=styled.div`
+border:1px solid #f9f9f9;
+padding:8px 16px;
+border-radius:4px;
+letter-spacing:1.5px;
+text-transform:uppercase;
+background-color:rgba(0,0,0,0.6);
+transition:all 0.2s ease 0s;
+cursor:pointer;
+
+&:hover{
+  background-color:#f9f9f9;
+  color:#000;
+  border-color:transparent;
+}
+
+
+
+`
+
+const LoginContainer=styled.div`
+flex:1;
+display:flex;
+justify-content:flex-end;
+
+
+
 
 
 `
