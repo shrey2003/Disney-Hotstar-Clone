@@ -8,10 +8,11 @@ import Movies from './Movies'
 const Detail=()=>{
     
      const {id}= useParams();
-     const [movie,setMovies] =useState()
+
+     const [movie,setMovies] =useState(false)
      
      useEffect(() => {
-       
+        console.log(window.location.href);
         
         dbConfig.collection("Movies")
         .doc(id)
@@ -19,7 +20,7 @@ const Detail=()=>{
         .then((doc)=>{
             if(doc.exists){
                 setMovies(doc.data())
-                
+                console.log(movie);
             }
             else{
 

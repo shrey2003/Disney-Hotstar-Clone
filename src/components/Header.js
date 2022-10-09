@@ -1,9 +1,9 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { findRenderedComponentWithType } from 'react-dom/test-utils'
 import {auth,provider} from '../features/counter/firebase'
 import styled from 'styled-components'
 import {signInWithPopup,signOut} from "firebase/auth";
-import {useHistory} from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 import {
   selectUserName,
   selectUserPhoto,
@@ -16,7 +16,12 @@ function Header() {
   const dispatch=useDispatch();
    const userName = useSelector(selectUserName);
    const userPhoto = useSelector(selectUserPhoto);
-   const History=useHistory();
+   const History=useLocation();
+
+   useEffect(()=>{
+     
+   },[])
+
      const signIn=()=>{
         signInWithPopup(auth,provider)
         .then((result)=>{
@@ -26,6 +31,7 @@ function Header() {
             email: user.email,
             photo:user.photoURL,
           }));
+          History.push('/')
         })
      }
      const SignOut=()=>{

@@ -4,9 +4,7 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import DetailPage from "./components/Detail";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 
 function App() {
@@ -16,18 +14,19 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <Switch>
-          <Route exact path="/">
-            {<Home />}
-          </Route>
-          <Route exact path="/Detail/:id">
+        <Routes>
+          
+          <Route exact path="/Detail/:id" element={<DetailPage/>  } >
             
-              {<DetailPage />}
+            
           </Route>
-          <Route exact path="/login">
-            {<Login />}
+          <Route exact path="/login" element={<Login />}>
+            
           </Route>
-        </Switch>
+          <Route exact path="/" element={<Home />}>
+            
+          </Route>
+        </Routes>
       </Router>
       
          </div>
