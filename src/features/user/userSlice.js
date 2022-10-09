@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState={
-    nam:"",
+    name:"",
     email:"",
     photo:""
 
@@ -16,7 +16,7 @@ const userSlice=createSlice({
             state.email=action.payload.email;
             state.photo=action.payload.photo;
         },
-        setSignOut:(state)=>{
+        setSignOut:(state,action)=>{
             state.name=null;
             state.email=null;
             state.photo=null;

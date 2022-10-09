@@ -2,21 +2,38 @@ import React from 'react'
 import { findRenderedComponentWithType } from 'react-dom/test-utils'
 import {auth,provider} from '../features/counter/firebase'
 import styled from 'styled-components'
-import {signInWithPopup} from "firebase/auth";
+import {signInWithPopup,signOut} from "firebase/auth";
+import {useHistory} from 'react-router-dom';
 import {
   selectUserName,
   selectUserPhoto,
+  setSignOut,
+  setUserLogin
 } from '../features/user/userSlice'
-import { useSelector} from 'react-redux'
+import { useDispatch,useSelector} from 'react-redux'
 
 function Header() {
+  const dispatch=useDispatch();
    const userName = useSelector(selectUserName);
    const userPhoto = useSelector(selectUserPhoto);
+   const History=useHistory();
      const signIn=()=>{
         signInWithPopup(auth,provider)
         .then((result)=>{
-          console.log(result);
+          let user=result.user
+          dispatch(setUserLogin({
+            name:user.displayName,
+            email: user.email,
+            photo:user.photoURL,
+          }));
         })
+     }
+     const SignOut=()=>{
+         signOut(auth)
+         .then(()=>{
+          dispatch(setSignOut());
+          History.push("../login")
+         })
      }
 
 
@@ -56,7 +73,9 @@ function Header() {
            </a>
 
         </NavMenu>
-        <UserImg src="https://www.hotstar.com/assets/c724e71754181298e3f835e46ade0517.svg">
+        <UserImg
+         onClick={SignOut}
+         src={userPhoto}>
         
         </UserImg>
            
@@ -126,7 +145,7 @@ align-items: center;
 const UserImg=styled.img`
 border-radius:50%;
 cursor:pointer;
-
+height:50px;
 
 `
 
